@@ -1,0 +1,98 @@
+body {
+	background-color: #e0eaf3;
+}
+
+ul {
+	list-style: none outside none;
+}
+
+li {
+	display : block;
+	float : left;
+	margin-bottom: 10px;
+}
+
+.wraper {
+    background-color: #ffffff;
+    margin: 0 auto;
+    width: 960px;
+    overflow: auto;
+}
+
+/* Todos los grids se muestran en la misma línea y dejando 10px de margen en ambos lados*/
+.grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+/* 1 bloque que ocupan las 12 columnas */
+.grid_12 {
+	width : 940px;
+}
+
+
+
+
+.fila {
+	display: block;
+	clear : both;	
+}
+
+
+.fila-1 li {
+	clear: both;
+	width: 100%;
+}
+
+.fila-2 li {
+	float: left;
+	width: 49%;
+}
+
+.fila-3 li {
+	float: left;
+	width: 32%;
+}
+
+label {
+	margin: 5px;
+}
+
+li label {
+    display: block;
+    float: left;
+    font-size: 0.9em;
+    font-weight: bold;
+    line-height: 1.1em;
+    padding-bottom: 2px;
+    text-align: left;
+    width: 140px;
+}
+
+
+.fecha {
+	width: 70px;
+}
+
+.telefono {
+	width: 80px;
+}
+
+.tLargo {
+   width: 700px;
+}
+
+.tMedio {
+  width: 260px;
+}
+
+
+
+
+.obligatorio::after {
+	content : '*';
+	color : red;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript" src="listaEnlaces.js"></script>
+</head>
+<body onload="inspeccionarEnlaces()">
+
+	<!-- Si el enlace apunta a una página interna, tiene que ser target self -->
+	<!-- Si el enlace apunta a una página externa (empieza por http://), tiene que ser target blank -->
+	<!-- Si el enlace tiene un target blank, ponerle un icono de nueva ventana -->
+	
+	<div>
+		<a href="http://www.google.es" target="_self">ir a google</a>
+		<br/>
+		<a href="http://www.indra.es">Ir a indraweb </a>
+	</div>
+	
+	<div>
+		<span><a href="/miAplicacion/prueba" target="_blank"> Ir a un recurso interno </a></span>
+	</div>
+	
+	<div>
+		<p>
+			<a href="http://www.elpais.es" target="_self"> Ir a el pais</a>
+		</p>
+		
+		<a href="/miAplicacion/prueba2"> Ir a otro recurso interno </a>
+	</div>
+	
+	<h6><a>Ir aquí</a></h6>
+</body>
+</html>

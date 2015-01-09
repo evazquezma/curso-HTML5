@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Pruebas con Javascript</title>
+</head>
+
+<body>
+	<h1>Pruebas con Javascript</h1>
+	<p>Nota: Para pintar mensajes se usa "console" que puede no estar disponible en todos los navegadores</p>
+	
+
+	<button onclick="testCrearObjetos()">Test crear objetos</button>	
+	<button onclick="testPrototype()">Test prototype</button>
+	<button onclick="testHerencia()">Test testHerencia</button>
+	
+	
+	<script>
+		"use strict";
+		
+		function testCrearObjetos() {
+			//------------------------------------//
+			var personaPaco = {
+				nombre : "Paco",
+				edad   : 50,
+				pais  : "España",
+				anhoNacimiento : function () {
+					return 2014 - this.edad;
+				}
+			};
+						
+			console.log(personaPaco);
+			console.log(personaPaco.anhoNacimiento());
+			console.log("----------------------");
+		
+		
+			try {
+				var constructorPersonas = personaPaco.constructor;
+				var personaAntonio= new constructorPersonas();
+				console.log(personaAntonio);
+				console.log(personaAntonio.anhoNacimiento());
+			}
+			catch(e) {
+				console.error(e);
+			}
+			
+			
+			try {
+				console.log("-- personaXXX --");
+				var personaxxxx = Object.create(personaPaco);
+				console.log(personaxxxx);
+				console.log(personaxxxx.anhoNacimiento());
+				console.log("-- personaXXX --")
+			}
+			catch(e) {
+				console.error(e);
+			}
+			
+			
+			
+		
+		
+		
+		
+			//------------------------------------//
+			var Persona = function(nombre, edad, pais) {
+				this.nombre = nombre || "";
+				this.edad = edad || 0;
+				this.pais = pais || "";
+				this.anhoNacimiento = function () {
+					return 2014 - this.edad;
+				}
+			}
+			
+			var personaMaria = new Persona("Maria", 20, "Rusia");
+			console.log(personaMaria);
+			console.log(personaMaria.anhoNacimiento());
+			console.log("----------------------");
+			
+			
+			
+			//--------------------------------------//
+			var constructorPersonas = personaMaria.constructor;
+			var personaLuis = new constructorPersonas("Luis", 30, "Francia");
+			console.log(personaLuis);
+			console.log(personaLuis.anhoNacimiento());
+			console.log("----------------------");
+			
+			//--------------------------------------//
+			var personaAna = Object.create(personaLuis);
+			personaAna.nombre = "Ana";
+			personaAna.edad=80;
+			
+			console.log(personaAna);
+			console.log(personaAna.anhoNacimiento());				
+		}
+		
+		
+		
+		
+		var testPrototype = function() {
+			var Coche = function(marca, km, pais) {
+				this.marca = marca;
+				this.km = km;
+				this.pais = pais;
+				this.duenho = "paco";
+				
+				this.getInfo = function() {
+					return this.marca + " - " + this.pais;
+				}
+				
+				Object.defineProperty(Coche.prototype, "duenhoPrototipo", {				 
+				   configurable : true,
+				   enumerable : true,
+				   get: function() {
+					  console.log("get!"); 
+					  return this.duenho; 
+					}		   
+				});
+			
+			
+			}
+										
+			Coche.prototype.esAmericano = function() {
+				return this.pais === "USA";
+			}
+			
+			var ford = new Coche("fod", 100, "USA");
+			
+			ford.esAleman = function() {
+				return this.pais === "Alemania";
+			}
+			
+		
+			
+			
+			
+			console.log(ford.duenhoPrototipo);
+			console.log("Propiedades de ford " + allKeys(ford));
+			console.log("Propiedades propias de ford " + allKeysPropias(ford));			
+			console.log("Es ford aleman? " + ford.esAleman());
+			console.log("Es ford americano? " + ford.esAmericano());
+			
+			
+			//---------------------------------------------------------------//
+			
+			var opel = new Coche("opel", 500, "Alemania");
+			
+			try {
+				console.log("Propiedades de opel " + allKeys(opel));
+				console.log("Propiedades propias de opel " + allKeysPropias(opel));	
+				
+				console.log("Es opel americano? " + opel.esAmericano());
+			}
+			catch(e) {
+				console.error(e);
+			}
+		
+		}
+		
+		
+		
+		var testHerencia = function () {
+			//Se pueden definir parámetros en el constructor
+			function Employee (name, dept) {
+				  this.name = name || "";
+				  this.dept = dept || "general";
+			}
+			
+			
+			
+			// Hijos de Employee
+			function Manager () {
+			  this.reports = [];
+			}
+			Manager.prototype = new Employee;
+
+			
+			function WorkerBee (projects) {
+			  this.projects = projects || [];
+			}
+			WorkerBee.prototype = new Employee;
+			
+			
+			
+			
+			// Hijos de workerBee
+			function SalesPerson (projects) {
+			   this.dept = "sales";
+			   this.quota = 100;			   			  
+			   this.machine = "";
+			   
+			   //Enlazar constructores
+			   this.base = WorkerBee;
+			   this.base(projects);
+			}
+			SalesPerson.prototype = new WorkerBee;
+	
+			function Engineer () {
+			   this.dept = "engineering";
+			   this.machine = "";
+			}
+			Engineer.prototype = new WorkerBee;
+			
+			
+			
+			//Al buscar una propiedad en el objeto, si no existe, se va a buscarla al __proto__, hasta llegar al comienzo de la cdena
+			var ingeniero = new Engineer();					
+			ingeniero.name = "Juan";
+			ingeniero.projects = ["edificio1", "edificio2"];
+			console.log("Ingeniero: ", ingeniero);
+			
+			console.log("------------------------");
+			
+			//se añade uan propiedad únicamente a este objeto
+			ingeniero.empresa = "Indra";
+			console.log("Ingeniero indra: ", ingeniero);
+			
+			
+			console.log("------------------------");
+			var vendedor = new SalesPerson (["venta 1", "venta 2"]);
+			console.log("vendedor: " +   vendedor.projects,  vendedor)
+			
+			//Ver la cadena de prototypes
+			console.log("------------------------");
+			console.log("vendedor.__proto__ == SalesPerson.prototype ",				vendedor.__proto__ == SalesPerson.prototype);
+			console.log("vendedor.__proto__.__proto__ == WorkerBee.prototype ",		vendedor.__proto__.__proto__ == WorkerBee.prototype);
+			console.log("vendedor.__proto__.__proto__.__proto__ == Employee.prototype ",		vendedor.__proto__.__proto__.__proto__ == Employee.prototype);
+			console.log("vendedor.__proto__.__proto__.__proto__.__proto__ == Object.prototype",	vendedor.__proto__.__proto__.__proto__.__proto__ == Object.prototype);
+			console.log("vendedor.__proto__.__proto__.__proto__.__proto__.__proto__ == null", 	vendedor.__proto__.__proto__.__proto__.__proto__.__proto__ == null);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		var allKeys = function(obj) {
+			var keys= [];
+			for (var propName in obj) {
+				keys.push(propName);
+			}
+			return keys;
+		};
+		
+		
+		var allKeysPropias = function(obj) {
+			var keys= [];
+			for (var propName in obj) {
+				if (obj.hasOwnProperty(propName)) {			
+					keys.push(propName);
+				}
+			}
+			return keys;
+		}
+		
+		
+		
+		
+	
+	
+	</script>
+
+
+	
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Pruebas con Javascript</title>
+</head>
+
+<body>
+	<h1>Pruebas con Javascript</h1>
+	<p>Nota: Para pintar mensajes se usa "console" que puede no estar disponible en todos los navegadores</p>
+	
+
+	<button onclick="testCrearObjetos()">Test crear objetos</button>	
+	<button onclick="testPrototype()">testPrototype</button>
+	<button onclick="testHerencia()">testHerencia</button>
+	<button onclick="contabilizar(fact1, '00110201420110001')">testEvento</button>
+
+	
+
+
+
+	<script type="text/javascript">
+		"use strict";
+	
+		//Pruebas para ver como se crea objetos
+		function testCrearObjetos() {
+			//--------------------------------
+			//Método 1, con object initializer
+			//--------------------------------
+			
+			//Se crea un ojbeto concreto
+			var personaPancho = {
+				nombre : "Pancho colate",
+				edad : 20,
+				pais : "Méjico",
+				anhoNacimiento : function () {
+					return 2014 - this.edad;
+				}
+			};
+			
+			console.log("Año de nacimiento de " + personaPancho.nombre + ": " + personaPancho.anhoNacimiento());
+			
+			
+			//No se pueden crear otros objetos a partir de éste con new
+			try {
+				var persona2 = new personaPancho();
+			}
+			catch(e) {
+				console.error(e);
+			}
+			
+			//Tampoco vale coger su constructor, porque se obtiene {} y no tiene propiedades
+			try {
+				var persona2 = new personaPancho.constructor();
+				console.log(persona2.anhoNacimiento());
+			}
+			catch(e) {
+				console.error(e);
+			}
+			
+			
+			
+			//--------------------------------
+			//Método 2, Función constructor
+			//--------------------------------
+			var Persona = function (nombre, edad, pais) {
+				this.nombre = nombre;
+				this.edad = edad;
+				this.pais = pais;
+				
+				this.anhoNacimiento = function () {
+					return 2014 - this.edad;
+				}
+			}
+			
+			var personaLuis = new Persona("Luis", 40, "España");
+			console.log("Año de nacimiento de " + personaLuis.nombre + ": " + personaLuis.anhoNacimiento());
+			
+			//--------------------------------
+			//Método 3, obteniendo el constructor de un objeto creado con función constructor
+			//--------------------------------
+			var personaMaria = new personaLuis.constructor("Maria", 30, "Francia");							
+			console.log("Año de nacimiento de " + personaMaria.nombre + ": " + personaMaria.anhoNacimiento());
+			
+			
+			//--------------------------------
+			//Método 4, con Object create a partir de otro objeto ya existente
+			//--------------------------------
+			var personaPachi = Object.create(personaPancho);
+			personaPachi.nombre ="Pachi";
+			personaPachi.edad = 50;
+			personaPachi.pais = "Italia";
+			console.log("Año de nacimiento de " + personaPachi.nombre + ": " + personaPachi.anhoNacimiento());
+		}
+		
+		
+		//*******************************************************************************//
+		//*******************************************************************************//
+		//*******************************************************************************//
+
+	
+		function testPrototype() {
+			//Constructor de objetos coche
+			function Coche(marca, kilometros, pais) {
+				this.marca = marca;
+				this.kilometros = kilometros;
+				this.pais = pais;
+				this.getInfo = function() {
+					return this.marca + " - " + this.kilometros + " - " + this.pais;
+				}
+			}
+			
+			var ford = new Coche("ford", 100, "USA");
+
+			console.log("----------------------------------");
+			console.log('propiedades de objeto ford: ' + allKeys(ford));
+			console.log('propiedades propias de objeto ford: '	+ allOwnProperties(ford));
+
+			
+			//Añadir una nueva propiedad con propotype
+			Coche.prototype.esAmericano = function() {
+				return this.pais === 'USA';
+			}
+
+			Object.defineProperty(Coche.prototype, "duenhoPrototipo", {
+			   value : "duenho 1",
+			   writable : true,
+			   configurable : true,
+			   enumerable : true
+			});
+			
+			
+			
+			
+			//Añadir una nueva propiedad directamente al objeto
+			ford.esAleman = function() {
+				return this.pais === "Alemania";
+			}
+			
+			//Añadir una propiedad al objeto, pero con más opciones. Se pueden meter funciones get/set
+			Object.defineProperty(ford, "duenhoPropio", {
+			   value : "duenho 2",
+			   writable : true,
+			   configurable : true,
+			   enumerable : true
+			});
+			
+			
+
+			console.log("----------------------------------");
+			//testear de nuevo qué propiedades y métodos tiene ESTE objeto
+			console.log('propiedades de objeto ford: ' + allKeys(ford));
+			console.log('propiedades propias de objeto ford: '	+ allOwnProperties(ford));
+
+			console.log("Es americano ford? " + ford.esAmericano());
+			console.log("Es aleman ford? " + ford.esAleman());
+			
+			
+
+			try {
+				//como añadimos la propiedad con prototype, es aplicable a todosl os coches que se instancien
+				var opel = new Coche("opel", 200, "Alemania");
+				console.log("----------------------------------");
+				console.log('propiedades de objeto opel: ' + allKeys(opel));
+				console.log('propiedades propias de objeto opel: '	+ allOwnProperties(opel));
+			
+				console.log("Es americano opel? " + opel.esAmericano());
+				console.log("Es Aleman opel? " + opel.esAleman());//Esto da error porque el método está en el objeto no en el prototypo
+
+			} catch (e) {			
+				alert(e);
+			}
+
+		}
+
+		//Muestra todas las propiedades de un objeto
+		var allKeys = function(myobj) {
+			var keys = [];
+			for ( var key in myobj) {
+				keys.push(key);
+			}
+			return keys;
+		};
+
+		//Muestra todas las propiedades de un objeto que son propias
+		//Es lo mismo que Object.getOwnPropertyNames(unObjeto)
+		var allOwnProperties = function(myobj) {
+			var props = [];
+			for ( var name in myobj) {
+				if (myobj.hasOwnProperty(name)) {
+					props.push(name);
+				}
+			}
+			return props;
+		};
+		
+
+		var borraPropiedadObjeto = function(myobj, propiedad) {
+			delete myobj[propiedad];
+		}
+		
+		
+		//*******************************************************************************//
+		//*******************************************************************************//
+		//*******************************************************************************//
+		
+		var testHerencia = function () {
+			//Se pueden definir parámetros en el constructor
+			function Employee (name, dept) {
+				  this.name = name || "";
+				  this.dept = dept || "general";
+			}
+			
+			
+			
+			// Hijos de Employee
+			function Manager () {
+			  this.reports = [];
+			}
+			Manager.prototype = new Employee;
+
+			
+			function WorkerBee (projects) {
+			  this.projects = projects || [];
+			}
+			WorkerBee.prototype = new Employee;
+			
+			
+			
+			
+			// Hijos de workerBee
+			function SalesPerson (projects) {
+			   this.dept = "sales";
+			   this.quota = 100;			   			  
+			   this.machine = "";
+			   
+			   //Enlazar constructores
+			   this.base = WorkerBee;
+			   this.base(projects);
+			}
+			SalesPerson.prototype = new WorkerBee;
+	
+			function Engineer () {
+			   this.dept = "engineering";
+			   this.machine = "";
+			}
+			Engineer.prototype = new WorkerBee;
+			
+			
+			
+			//Al buscar una propiedad en el objeto, si no existe, se va a buscarla al __proto__, hasta llegar al comienzo de la cdena
+			var ingeniero = new Engineer();
+			ingeniero.name = "Juan";
+			ingeniero.projects = ["edificio1", "edificio2"];
+			console.log("Ingeniero: ", ingeniero);
+			
+			console.log("------------------------");
+			
+			//se añade uan propiedad únicamente a este objeto
+			ingeniero.empresa = "Indra";
+			console.log("Ingeniero indra: ", ingeniero);
+			
+			
+			console.log("------------------------");
+			var vendedor = new SalesPerson (["venta 1", "venta 2"]);
+			console.log("vendedor: " +   vendedor.projects,  vendedor)
+			
+			//Ver la cadena de prototypes
+			console.log("------------------------");
+			console.log("vendedor.__proto__ == SalesPerson.prototype ",				vendedor.__proto__ == SalesPerson.prototype);
+			console.log("vendedor.__proto__.__proto__ == WorkerBee.prototype ",		vendedor.__proto__.__proto__ == WorkerBee.prototype);
+			console.log("vendedor.__proto__.__proto__.__proto__ == Employee.prototype ",		vendedor.__proto__.__proto__.__proto__ == Employee.prototype);
+			console.log("vendedor.__proto__.__proto__.__proto__.__proto__ == Object.prototype",	vendedor.__proto__.__proto__.__proto__.__proto__ == Object.prototype);
+			console.log("vendedor.__proto__.__proto__.__proto__.__proto__.__proto__ == null", 	vendedor.__proto__.__proto__.__proto__.__proto__.__proto__ == null);
+		}
+		
+		
+		
+		//*******************************************************************************//
+		//*******************************************************************************//
+		//*******************************************************************************//
+		
+		//Código para crear un objeto y un evento
+		var Factura = function (numero, fecha) {
+			this.numero = numero;
+			this.fecha = fecha;
+			this.numeroOperacion = null;
+			this.onContabilizacion = function() {};
+			
+			this.contabilizar = function (numeroOperacion) {
+				this.numeroOperacion = numeroOperacion;
+				onContabilizacion(this);
+			}
+			
+			this.prettyPrint = function () {
+				return this.numero + " " + this.fecha + ": " + this.numeroOperacion;
+			}
+			
+		}
+		
+		var onContabilizacion = function (factura) {
+			alert("se ha contabilizado la factura " + factura.prettyPrint() );
+		}
+		
+		var contabilizar = function(factura, numeroOperacion) {
+			factura.contabilizar(numeroOperacion);
+		}
+		
+		
+		var fact1 = new Factura("2014-00001", new Date());
+		fact1.onContabilizacion = onContabilizacion;
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<script src="js/jquery-1.11.1.js"></script>
+</head>
+
+<body>
+	<div>
+		<canvas id="tablero" width="200" height="100" style="border:2px inset brown"></canvas> 
+	</div>
+	
+	
+	Celdas Largo: <input id="celdasLargo" type="text" value="10"/>
+	<br/>	
+	Celdas Ancho: <input id="celdasAncho" type="text" value="10"/>
+	<br/>	
+	Tamaño Celdas: <input id="cellSize" type="text" value="5"/>
+	<br/>
+	Intervalo reloj: <input id="intervaloReloj" type="text" value="1000"/>
+	<br/>
+	
+	<div>
+		<button onClick="iniciar();">Iniciar</button>
+		<button onClick="parar();">Parar</button>		
+	</div>
+	
+	<script type="text/javascript">
+		var refreshIntervalId;	
+		//Array bidimensional
+		var celulas = [];
+				
+		//Píxeles que bordean cada celda
+		var bordesCelda = 1;
+		
+		var c=document.getElementById("tablero");
+		var ctx=c.getContext("2d");
+
+		//**********************************************//
+		//******************** VISTA *******************//
+		//**********************************************//
+		//Pinta el tablero a partir del número de celdas y tamaño (en píxeles) indicaso
+		//Parámetros:
+		// celdasLargo : Número de casillas de largo
+		// celdasAncho : Número de casillas de ancho
+		// cellSize : Tamaño en píxeles de cada celda. Se suponen celdas cuadradas
+		var dibujarTablero = function(celdasLargo, celdasAncho, cellSize) {
+			var largo = celdasLargo * cellSize + ((celdasLargo + 1) * bordesCelda);
+			var ancho = celdasAncho * cellSize + ((celdasAncho + 1) * bordesCelda);			
+			$("#tablero").attr("width", largo);
+			$("#tablero").attr("height", ancho);
+			
+			var x, y;
+			//Pintar las líneas verticales
+			for( x = 0; x < celdasLargo; x++) {
+				ctx.moveTo((x*cellSize) + ((x+1) * bordesCelda), 0);
+				ctx.lineTo((x*cellSize) + ((x+1) * bordesCelda), ancho);
+				ctx.lineWidth = bordesCelda;
+				ctx.strokeStyle='#00CC00';
+				ctx.stroke();
+			}
+			//Pintar las líneas horizontales
+			for ( y = 0; y < celdasAncho; y++) {
+				ctx.moveTo(0,     (y*cellSize) + ((y+1) * bordesCelda));
+				ctx.lineTo(largo, (y*cellSize) + ((y+1) * bordesCelda));
+				ctx.lineWidth = bordesCelda;
+				ctx.fillStyle = "#FF0000";
+				ctx.stroke();
+			}
+		}
+
+		//Muestra todas las células sobre el tablero.
+		//Parámetros:
+		// celulas: array bidimensional en el sólo hay valores enteros de 0 ó 1.
+		// cellSize : Tamaño en píxeles de cada celda. Se suponen celdas cuadradas
+		var dibujarCelulasEnTablero = function(celulas, cellSize) {						
+			var x, y;
+			for( x = 0; x < celulas.length; x++) {
+				for( y = 0; y < celulas[x].length; y++) {								
+					dibujarCelulaIndividualEnTablero(x, y, cellSize, celulas[x][y]);
+				}
+			}	
+		}
+		//Muestra todas las células en la posición en base a su orden
+		//Parámetros:
+		// numCeldadLargo: Número de celda empezando a contar desde la izquierda
+		// numCeldaAncho: Número de cleda empezando a contar desde arriba
+		// cellSize : Tamaño en píxeles de cada celda. Se suponen celdas cuadradas
+		// estadoVida: variable entera (1 si está viva, 0 si está muerta)
+		var dibujarCelulaIndividualEnTablero = function(numCeldaLargo, numCeldaAncho, cellSize, estadoVida){
+			if (estadoVida == 1) {
+				ctx.fillStyle="#000000";
+			}
+			else {
+				ctx.fillStyle="#FFFFFF";
+			}
+
+			var x1 = (numCeldaLargo*(cellSize + 1)) + 1;
+			var y1 = (numCeldaAncho*(cellSize + 1)) + 1;
+
+			ctx.fillRect(x1, y1, cellSize, cellSize); 						
+		}
+
+
+		
+		//**********************************************//
+		//******************* NEGOCIO ******************//
+		//**********************************************//
+		//Inicializa el mundo. 
+		//pVida [0,1) indica la probabilidad de que una célula esté viva
+		var inicializarCeldas = function(celdasLargo, celdasAncho, pVida) {
+			var celulas = [];		
+			var x, y;
+			for(x=0; x<celdasLargo; x++) {
+				celulas[x] = [];
+				for (y=0; y<celdasAncho; y++) {
+					if (Math.random() <= pVida) {
+						celulas[x][y] = 1;
+					}
+					else {
+						celulas[x][y] = 0;
+					}
+				}
+			}
+			return celulas;
+		}
+
+
+		var generarSiguienteGeneracion = function (celulas) {
+			var newGen=[];
+
+			var x, y;
+			for(x=0; x<celulas.length; x++) {
+				newGen[x] = [];
+				
+				for(y=0; y<celulas[x].length; y++) {
+					newGen[x][y] = aplicarReglas(x, y, celulas);
+				}
+			}
+
+			return newGen;
+		}
+
+		//Deduce el valor de la célula en la siguiente generación
+		var aplicarReglas = function (x, y, celulas) {
+			var vecinasVivas = contarVecinasVivas(x,y, celulas);
+
+			//Any live cell with fewer than two live neighbours dies, as if caused by under-population.
+			if (celulas[x][y] == 1 && vecinasVivas < 2) {
+				return 0;
+			}
+			
+			//Any live cell with two or three live neighbours lives on to the next generation.
+			if (celulas[x][y] == 1 && (vecinasVivas == 2 || vecinasVivas == 3)) {
+				return 1;
+			}
+			
+			//Any live cell with more than three live neighbours dies, as if by overcrowding.
+			if (celulas[x][y] == 1 && vecinasVivas > 3) {
+				return 0;
+			}		 	   
+
+			//Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.		    
+		    if (celulas[x][y] == 0 && vecinasVivas == 3) {
+			    return 1;
+		    }
+		    
+			//Está muerta y sigue así
+			return celulas[x][y];								
+		}
+
+		//Cuenta cuantas vecinas vivas tiene una célula
+		var contarVecinasVivas = function(x,y, celulas) {
+			var vivas = 0;
+			
+			var x2,y2;		
+			for (x2= x-1; x2 <= x+1; x2 ++) {
+				for (y2 = y-1; y2 <= y+1; y2 ++) {
+					if ((x2>=0 && x2 < celulas.length) &&
+					   (y2>=0 && y2 < celulas[x2].length) &&
+					   (x2 != x || y2 != y)){
+						   if (celulas[x2][y2] == 1) {						   
+								vivas ++;
+						   }			
+					}				
+				}
+			}
+
+			return vivas;
+		}
+
+
+		//***************************************************************//
+		
+		var iniciar = function () {						
+			var celdasLargo = parseInt($("#celdasLargo").val());
+			var celdasAncho = parseInt($("#celdasAncho").val());
+			var cellSize = parseInt($("#cellSize").val());
+			var intervaloReloj =parseInt($("#intervaloReloj").val()); 
+						
+			dibujarTablero(celdasLargo, celdasAncho, cellSize);
+			
+			celulas = inicializarCeldas(celdasLargo, celdasAncho, 0.5);
+
+			dibujarCelulasEnTablero(celulas, cellSize);
+		
+			refreshIntervalId = setInterval(function(){				
+				celulas = generarSiguienteGeneracion(celulas);
+				dibujarCelulasEnTablero(celulas, cellSize);				
+				},
+				intervaloReloj);						
+		}
+
+		
+		var parar = function() {
+			if (refreshIntervalId != undefined) {
+				clearInterval(refreshIntervalId);
+			}			
+		}
+
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Campos HTML5 de formulario</title>
+
+<link rel='stylesheet' type='text/css' media="screen" href='validation01.css' />	
+
+
+</head>
+<body>
+	
+	<form action ="#" method = "POST">
+	
+		<ul class="fila">
+			<li>
+				<label for="nombre">Nombre:</label> <input type="text" id="nombre" name="nombre" required="required">
+			</li>
+
+			<li>
+				<label for="email">Email Address:</label> <input type="email" id="email" name="email" required placeholder="Enter a valid email address" autofocus="autofocus">
+			</li>
+
+			<li>
+				<label for="">Website:</label>  <input type="url" name="website" required="required">
+			</li>		
+			
+			<li>
+				<label for="">Age:</label>  <input type="number" size="6" name="age" min="18" max="99" value="21">
+			</li>
+			
+			<li>
+				<label for="">Satisfaction:</label>  <input type="range" size="2" name="satisfaction" min="1" max="5" value="3">
+			</li>
+			
+			<li>
+				<label for="">color:</label>  <input type="color" name="color" required="required">
+			</li>
+			
+			<li>
+				<label for="">date:</label>  <input type="date" name="date" required="required">
+			</li>
+		
+			<li>
+				<label for="">datetime:</label>  <input type="datetime" name="datetime" required="required">
+			</li>
+		
+			<li>
+				<label for="">datetime-local:</label>  <input type="datetime-local" name="datetime-local" required="required">
+			</li>
+			
+			<li>
+				<label for="">month:</label>  <input type="month" name="month" required="required">
+			</li>
+			
+			<li>
+				<label for="">search:</label>  <input type="search" name="search" required="required">
+			</li>
+			
+			<li>
+				<label for="">tel:</label>  <input type="tel" name="tel" required="required">
+			</li>
+			
+			<li>
+				<label for="">time:</label>  <input type="time" name="time" required="required">
+			</li>
+			
+			
+			<li>
+				<label for="">week:</label>  <input type="week" name="week" required="required">
+			</li>
+		</ul>
+		
+		<br/>
+		<button name="accion" value="crear">Crear</button>
+	</form>
+	
+
+</body>
+</html>

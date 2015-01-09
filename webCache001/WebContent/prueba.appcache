@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# ver 1.4
+
+html/pagina1.html
+html/gatito.jpg
+
+
+NETWORK:
+*
+
+
+FALLBACK:
+html/	offline.html

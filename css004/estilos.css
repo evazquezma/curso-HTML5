@@ -1,0 +1,245 @@
+body {
+	background-color: #e0eaf3;
+}
+
+ul {
+	list-style: none outside none;
+}
+
+li {
+	display : block;
+	float : left;
+}
+
+.flotaDerecha {
+	float:right;
+}
+
+.flotaIzquierda {
+	float:left;
+}
+
+
+/* */
+
+.wraper {
+    background-color: #fff;
+    margin: 0 auto;
+    width: 960px;
+	overflow: auto;
+}
+
+/* Todos los grids se muestran en la misma línea y dejando 10px de margen en ambos lados*/
+.grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* 1 bloque que ocupan las 12 columnas */
+.grid_12 {
+	width : 940px;
+}
+
+
+
+
+
+
+
+#menuSuperior {
+}
+
+#cabeceira {
+	height: 93px;
+	background-image: url("./recursos/cabeceira.jpg");
+}
+
+#menuPrincipal {
+	
+}
+#cuerpoCentral{
+	min-height: 400px;
+}
+#footer {
+	background-color: #067fb6;
+    color: #fff;
+    height: 39px;
+    width: 940px;
+    padding: 10px;
+}
+
+
+
+.barraIdioma {
+	float: right;
+}
+
+
+#cabeceira .nombreApp {
+    color: #536da0;
+    font-size: 2.0em;
+    font-weight: bold;
+    line-height: 1em;
+    margin-left: 115px;
+    margin-right: 67px;
+    padding-top: 25px;
+}
+
+#cabeceira a {
+    color: #536da0;
+}
+#logoXunta {
+    margin-right: 36px;
+    margin-top: 20px;
+}
+
+
+/* Estilos para resetar bloques */
+.fila {
+	display: block;
+}
+
+
+.fila:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+
+
+.fila-1 li {
+	clear: both;
+}
+
+.fila-2 li {
+	float: left;
+	width: 49%;
+}
+
+
+li label {
+    display: block;
+    float: left;
+    font-size: 0.9em;
+    font-weight: bold;
+    line-height: 1.0em;
+    padding-bottom: 2px;
+    text-align: left;
+    width: 140px;
+}
+
+
+ol, ul {
+    list-style: none outside none;
+}
+
+
+
+
+/* -------------- */
+/* Barra de menus */
+/* -------------- */
+
+
+/* ------------------ */
+/* Fin Barra de menus */
+/* ------------------ */
+
+
+
+
+/* Cuerpo central listado */
+
+.titulo {
+    border-bottom: 1px solid #8bb6d8;
+    color: #2e6da0;
+    margin-bottom: 5px;
+}
+
+
+.titulo h1 {
+    font-size: 2.2em;
+    line-height: 1em;
+    margin-left: 15px;
+    padding: 0;
+}
+
+
+.formulario {
+	padding: 0 15px;
+}
+
+
+.buscador h2 {
+    font-size: 1.5em;
+    line-height: 1em;
+    padding: 0;
+    border-bottom: 3px solid #0079ac;
+    color: #0079ac;
+}
+
+
+
+
+/* Tablas */
+
+table.tablaTrabajo {
+    clear: both;
+    font-size: 0.8em;
+    margin-top: 15px;
+    width: 100%;
+}
+
+table.tablaTrabajo th {
+    background-color: transparent;
+    border-bottom: 2px solid #0079ac;
+    border-spacing: 5px;
+    color: #000000;
+    padding: 5px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+table.tablaTrabajo th a {
+    color: #0079ac;
+    text-decoration: none;
+}
+
+
+table.tablaTrabajo td a {
+    color: #0079ac;
+    font-weight: bold;
+}
+
+tr.even {
+    background-color: #f4f4f4;
+}
+
+
+/*  */
+.botonera {
+	margin-top: 15px;
+	float:right;	
+}
+
+button {
+    background-color: white;
+    border: 1px solid #0079ac;
+    color: #0079ac;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin: 0 0 0 5px;
+    padding: 4px 5px 5px;
+    width: auto;
+}
+
+button:hover {
+    background-color: #d7f1fb;
+}
+

@@ -1,0 +1,111 @@
+body {
+	background-color: #e0eaf3;
+}
+
+ul {
+	list-style: none outside none;
+}
+
+li {
+	display : block;
+	float : left;
+}
+
+.flotaDerecha {
+	float:right;
+}
+
+.flotaIzquierda {
+	float:left;
+}
+
+
+/* */
+
+.wraper {
+    background-color: #fff;
+    margin: 0 auto;
+    width: 960px;
+	overflow: auto;
+}
+
+/* Todos los grids se muestran en la misma línea y dejando 10px de margen en ambos lados*/
+.grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* 1 bloque que ocupan las 12 columnas */
+.grid_12 {
+	width : 940px;
+}
+
+
+
+
+
+
+#menuSuperior {
+}
+
+#cabeceira {
+	height: 93px;
+	background-image: url("./recursos/cabeceira.jpg");
+}
+
+#menuPrincipal {
+	
+}
+#cuerpoCentral{
+	min-height: 400px;
+}
+#footer {
+	background-color: #067fb6;
+    color: #fff;
+    height: 39px;
+    width: 940px;
+    padding: 10px;
+}
+
+
+
+.barraIdioma {
+	float: right;
+}
+
+
+#cabeceira .nombreApp {
+    color: #536da0;
+    font-size: 2.0em;
+    font-weight: bold;
+    line-height: 1em;
+    margin-left: 115px;
+    margin-right: 67px;
+    padding-top: 25px;
+}
+
+#cabeceira a {
+    color: #536da0;
+}
+#logoXunta {
+    margin-right: 36px;
+    margin-top: 20px;
+}
+
+/* Estilos para resetar bloques */
+.fila {
+	display: block;
+}
+
+
+.fila:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+/* Cuerpo central listado */

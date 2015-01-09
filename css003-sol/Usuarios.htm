@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="gl" lang="gl">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Usuarios</title>
+	
+	<link rel='stylesheet' type='text/css' media="screen" href='estilos.css' />	
+</head>
+<body>
+
+
+<div class="wraper">
+	<!-- Barra superiro con enlaces de información y cambio de idioma -->
+	<div id="menuSuperior" class="grid_12">
+	   <ul>
+		  <li class="">
+			<a title="Xunta de Galicia" href="http://www.xunta.es">www.xunta.es</a>
+		  </li>
+		  
+		  <li class="">
+			<a accesskey="1" title='Accesibilidade' href="accesibilidade">
+				Accesibilidade
+			</a>      	
+		  </li>
+			   
+		  <li class="">
+			<a accesskey="3" title='Suxestións e queixas' href="http://www.xunta.es/envio-de-consulta-ou-comentario">
+				Suxestións e queixas
+			</a>
+		  </li>
+			 
+		 <li class="barraIdioma">
+				<span>GALEGO</span>
+				<span>&nbsp;|&nbsp;</span>
+				<a href="/appxxx?idioma=es">CASTELLANO </a>
+		  </li>
+	   </ul>
+	</div>
+
+	<!-- Cabecera -->
+	<div id="cabeceira" class="grid_12">    
+	   <div class="nombreApp flotaIzquierda">   		
+			SERVIZO ELECTRÓNICO <br/> DE COMPRAS   		
+		</div>
+	  
+	   <a class="flotaDerecha" id="logoXunta" title="Xunta de Galicia" href="http://www.xunta.es/">
+			<img alt="Xunta de Galicia" src="./recursos/logoXunta.png"/>
+	   </a>
+	</div>
+
+
+	<div id="cuerpoCentral" class="grid_12">
+		<div class="titulo">
+			<h1>Listado usuarios</h1>
+		</div>
+		
+		
+		<div class="formulario fila">
+		
+			<form id="buscadorUsuariosForm" action="/pruebaApp/usuarios" method="post">
+			
+				<div class="buscador fila">
+					<h2>Criterios Búsqueda</h2>
+					
+					<ul class="fila fila-1"> 
+					 	<li> 
+							<label class="" for="filtro.nombre">
+								Nombre	
+							</label>
+							<input id="filtro.nombre" name="filtro.nombre" type="text" value=""/>
+					 	</li>	 	
+					</ul>
+
+					<ul class="fila fila-2"> 
+					 	<li> 
+							<label class="" for="filtro.fechaRegistroDesde">
+								Fecha registro desde	
+							</label>
+							<input id="filtro.fechaRegistroDesde" name="filtro.fechaRegistroDesde" type="text" value="" size="10"/>
+					 	</li>	 	
+					
+					 	<li> 
+							<label class="" for="filtro.fechaRegistroHasta">
+								Fecha registro hasta	
+							</label>
+							<input id="" name="filtro.fechaRegistroHasta" type="text" value="" size="10"/>
+					 	</li>	 	
+					</ul>
+										
+				</div>
+				
+				<div class="resultado fila">		
+					<table class="tablaTrabajo">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>NIF</th>
+								<th>Login</th>
+								<th>Activo</th>
+							</tr>						
+						</thead>
+						<tbody>				
+							<tr>
+								<td><a href='/pruebaApp/usuarios/1'>Luis Prueba Prueba</a></td>
+								<td>11111111A</td>								
+								<td>login1</td>
+								<td>No</td>
+							</tr>
+						
+							<tr class="even">							
+								<td><a href='/pruebaApp/usuarios/2'>Pedro Pérez Pérez</a></td>
+								<td>22222222B</td>								
+								<td>login2</td>
+								<td>Sí</td>
+							</tr>
+						
+							<tr>
+								<td><a href='/pruebaApp/usuarios/3'>Ana Prueba Prueba</a></td>
+								<td>33333333C</td>								
+								<td>login3</td>
+								<td>Sí</td>
+							</tr>
+						
+							<tr class="even">
+								<td><a href='/pruebaApp/usuarios/3'>Juan Prueba Prueba</a></td>
+								<td>44444444D</td>								
+								<td>login4</td>
+								<td>Sí</td>
+							</tr>													
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="botonera fila">
+					<button id="accion" name="accion" type="submit" value="buscar">Buscar</button>
+					<button id="accion" name="accion" type="submit" value="crear">Crear</button>
+				</div>
+			</form>
+			
+		</div>
+		
+	</div>
+
+
+
+	<!-- Pie -->
+	<div id="footer" class="grid_12">
+		<div id="xuntaPie" class="flotaIzquierda">
+		   <a href="http://www.xunta.es/portada" title="Xunta de Galicia - Inicio"><img src="./recursos/logoXuntaPe.png" alt="Xunta de Galicia"/></a>
+		</div>	
+	</div>
+	
+</div>
+	
+</body>
+</html>

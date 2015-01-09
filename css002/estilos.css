@@ -1,0 +1,26 @@
+body {
+	background-color: #e0eaf3;
+}
+
+
+
+.wraper {
+    background-color: #ffffff;
+    margin: 0 auto;
+    width: 960px;
+    overflow: auto;
+}
+
+/* Todos los grids se muestran en la misma línea y dejando 10px de margen en ambos lados*/
+.grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+/* 1 bloque que ocupan las 12 columnas */
+.grid_12 {
+	width : 940px;
+}

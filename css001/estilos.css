@@ -1,0 +1,48 @@
+body {
+	background-color: #e0eaf3;
+}
+
+
+.wraper {
+    background-color: #ffffff;
+    margin: 0 auto;
+    width: 960px;
+    overflow: auto;
+}
+
+/* Todos los grids se muestran en la misma línea y dejando 10px de margen en ambos lados*/
+.grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+/* 1 bloque que ocupan las 12 columnas */
+.grid_12 {
+	width : 940px;
+}
+
+/* 2 bloques que ocupan cada uno 6 columnas */
+.grid_6 {
+	 width: 460px;
+}
+
+/* 3 bloques que ocupan cada uno 4 columnas */
+.grid_4 {
+    width: 300px;
+}
+
+
+hr {
+    border-bottom: 1px dashed #666;
+    border-top: 1px solid #999;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 2px 0 0;
+	clear: both;
+}
+
+
+
